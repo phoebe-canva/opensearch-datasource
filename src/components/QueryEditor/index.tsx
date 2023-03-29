@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { QueryEditorProps } from '@grafana/data';
 import { OpenSearchDatasource } from '../../datasource';
 import { OpenSearchOptions, OpenSearchQuery, QueryType } from '../../types';
 import { OpenSearchProvider } from './OpenSearchQueryContext';
-import { InlineField, InlineFieldRow, Input, QueryField } from '@grafana/ui';
+import { Button, InlineField, InlineFieldRow, Input, Popover, QueryField } from '@grafana/ui';
 import { changeAliasPattern, changeQuery } from './state';
 import { QueryTypeEditor } from './QueryTypeEditor';
 import { MetricAggregationsEditor } from './MetricAggregationsEditor';
@@ -30,10 +30,10 @@ const styles = {
 interface Props {
   value: OpenSearchQuery;
 }
-
 export const QueryEditorForm = ({ value }: Props) => {
   const dispatch = useDispatch();
   const nextId = useNextId();
+  // const [isModalOpen] = useState(true);
 
   return (
     <>
@@ -45,7 +45,7 @@ export const QueryEditorForm = ({ value }: Props) => {
               query={value.query}
               // By default QueryField calls onChange if onBlur is not defined, this will trigger a rerender
               // And slate will claim the focus, making it impossible to leave the field.
-              onBlur={() => {}}
+              onBlur={() => { }}
               onChange={query => dispatch(changeQuery(query))}
               placeholder={value.queryType === QueryType.PPL ? 'PPL Query' : 'Lucene Query'}
               portalOrigin="opensearch"
@@ -62,6 +62,34 @@ export const QueryEditorForm = ({ value }: Props) => {
           </InlineField>
         )}
       </InlineFieldRow>
+
+      <InlineFieldRow>
+        <InlineField label="Filter" labelWidth={17} id="popup-reference" grow>
+          {/* <ColorPickerPopover
+            color="#BC67E6"
+            onChange={() => {
+            }}
+          ></ColorPickerPopover> */}
+          {/* <div className={styles.queryWrapper}>
+            <Segment
+              className={segmentStyles}
+              options=["is, is not"]
+            onChange={e => dispatch(changeQueryType(e.value!))}
+            value={toOption(value)}
+    />
+          </div> */}
+          <div>hello</div>
+
+        </InlineField>
+
+      </InlineFieldRow>
+      {/* <Modal title="text" isOpen={isModalOpen} >
+        Trying to see if this works
+      </Modal> */}
+      <Popover show={true} referenceElement={document.getElementById('popup-reference')} content={<div>POP UP?</div>}>
+
+        <Button>Open Form</Button>
+      </Popover>
 
       {value.queryType === QueryType.PPL ? (
         <PPLFormatEditor />
