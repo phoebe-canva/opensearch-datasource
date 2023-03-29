@@ -13,7 +13,6 @@ import { useNextId } from '../../hooks/useNextId';
 import { css } from '@emotion/css';
 import { PPLFormatEditor } from './PPLFormatEditor';
 import { FiltersLogsEditor } from './LuceneFormatEditor';
-import { SettingsEditorContainer } from './SettingsEditorContainer';
 
 export type OpenSearchQueryEditorProps = QueryEditorProps<OpenSearchDatasource, OpenSearchQuery, OpenSearchOptions>;
 
@@ -65,18 +64,12 @@ export const QueryEditorForm = ({ value }: Props) => {
         )}
       </InlineFieldRow>
 
-      {/* <InlineFieldRow>
-        <InlineField label="Add Filters" labelWidth={17} id="popup-reference" grow>
-          <QueryEditorRow
-            key={"hi"}
-            label={`Metric`}
-            onHideClick={() => { }}
-            onRemoveClick={() => { }}
-          ></QueryEditorRow>
+      <InlineFieldRow>
+        <InlineField label="Filters" labelWidth={17} id="popup-reference" grow>
+          <FiltersLogsEditor value={value} />
         </InlineField>
 
-      </InlineFieldRow> */}
-      <SettingsEditorContainer label={"Add Filters"}><FiltersLogsEditor value={value} /></SettingsEditorContainer>
+      </InlineFieldRow>
 
 
       {value.queryType === QueryType.PPL ? (

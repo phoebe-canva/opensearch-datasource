@@ -62,6 +62,15 @@ export const FiltersLogsEditor = ({ value }: Props) => {
     return (await get()).map(toSelectableValue);
   };
 
+  const getValues = async () => {
+    const get = () => {
+      return datasource.getFieldsSuggestor({ field: value.filter?.field, queryString: "" })
+    }
+    return (await get()).map(toSelectableValue);
+  }
+
+  // console.log(datasource.getFieldsSuggestor({ field: "app_name.keyword", queryString: "a" }))
+
   // @ts-ignore
   const toOptions = (m: string[]): Array<SelectableValue<string>> => m.map(convertSelectableValue);
 
@@ -84,14 +93,14 @@ export const FiltersLogsEditor = ({ value }: Props) => {
         >
 
           <SegmentAsync
-            className={"h"}
+            className={segmentStyles}
             loadOptions={getFields}
             onChange={(e) => { dispatch(addFieldName(e.value)) }}
             placeholder="Select Field Name"
             value={value.filter?.field}
           />
           <Segment
-            className={"h"}
+            className={segmentStyles}
             options={toOptions(["is", "is not", "exists", "does not exist"])}
             onChange={(e) => { dispatch(addFilterOperator(e.label)) }}
             placeholder="Operator"
@@ -99,8 +108,8 @@ export const FiltersLogsEditor = ({ value }: Props) => {
           />
           <SegmentAsync
             className={segmentStyles}
-            loadOptions={getFields}
-            onChange={e => dispatch(addFilterValue(e.label))}
+            loadOptions={getValues}
+            onChange={e => dispatch(addFilterValue(e.value))}
             placeholder="Field Value"
             value={value.filter?.value}
           />
@@ -117,3 +126,5 @@ export const FiltersLogsEditor = ({ value }: Props) => {
     </>
   );
 };
+
+
