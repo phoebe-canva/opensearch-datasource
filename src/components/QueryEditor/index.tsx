@@ -76,7 +76,7 @@ export const QueryEditorForm = ({ value }: Props) => {
         </InlineField>
 
       </InlineFieldRow> */}
-      <SettingsEditorContainer label={"Add Filters"}><FiltersLogsEditor /></SettingsEditorContainer>
+      <SettingsEditorContainer label={"Add Filters"}><FiltersLogsEditor value={value} /></SettingsEditorContainer>
 
 
       {value.queryType === QueryType.PPL ? (

@@ -1,4 +1,5 @@
 import { DataQuery, DataSourceJsonData } from '@grafana/data';
+import { FilterVariable } from 'components/QueryEditor/LuceneFormatEditor/state';
 import {
   BucketAggregation,
   BucketAggregationType,
@@ -78,6 +79,7 @@ export interface OpenSearchQuery extends DataQuery {
   timeField?: string;
   queryType?: QueryType;
   format?: PPLFormatType;
+  filter?: FilterVariable;
 }
 
 export type DataLinkConfig = {
@@ -95,3 +97,4 @@ export enum Flavor {
   Elasticsearch = 'elasticsearch',
   OpenSearch = 'opensearch',
 }
+

@@ -1,7 +1,14 @@
-import { Button, InlineField, Input, Segment, SegmentAsync } from '@grafana/ui';
+import { IconButton, InlineField, Segment, SegmentAsync } from '@grafana/ui';
 import { css } from '@emotion/css';
 import React from 'react';
 import { useDatasource } from '../OpenSearchQueryContext';
+import { useDispatch } from 'hooks/useStatelessReducer';
+import { addFieldName, addFilterOperator, addFilterValue } from './state';
+import { OpenSearchQuery } from 'types';
+import { segmentStyles } from '../styles';
+interface Props {
+  value: OpenSearchQuery;
+}
 // import { AddRemove } from '../../../../AddRemove';
 // import { useDispatch, useStatelessReducer } from '../../../../../hooks/useStatelessReducer';
 // import { Filters } from '../../aggregations';
@@ -14,7 +21,7 @@ import { useDatasource } from '../OpenSearchQueryContext';
 //   value: Filters;
 // }
 // { useEffect }
-export const FiltersLogsEditor = ({ part }: any) => {
+export const FiltersLogsEditor = ({ value }: Props) => {
   //   const upperStateDispatch = useDispatch<BucketAggregationAction<Filters>>();
 
   //   const dispatch = useStatelessReducer(
@@ -30,9 +37,9 @@ export const FiltersLogsEditor = ({ part }: any) => {
   //       dispatch(addFilter());
   //     }
   //   }, []);
-  let value = {
-    settings: { filters: [{ query: "query", label: "label" }] }
-  }
+  // let value = {
+  //   settings: { filters: [{ query: "query", label: "label" }] }
+  // }
   const datasource = useDatasource();
 
   // @ts-ignore
@@ -58,6 +65,9 @@ export const FiltersLogsEditor = ({ part }: any) => {
   // @ts-ignore
   const toOptions = (m: string[]): Array<SelectableValue<string>> => m.map(convertSelectableValue);
 
+  const dispatch = useDispatch();
+  console.log(value)
+
   return (
     <>
       <div
@@ -66,48 +76,43 @@ export const FiltersLogsEditor = ({ part }: any) => {
           flex-direction: column;
         `}
       >
-        {value.settings?.filters!.map((filter, index) => (
-          <div
-            key={index}
-            className={css`
+
+        <div
+          className={css`
               display: flex;
             `}
-          >
-            <div
-              className={css`
-                width: 250px;
-              `}
-            >
-              <InlineField label="Fields" labelWidth={10}>
-                <SegmentAsync
-                  className={"h"}
-                  loadOptions={getFields}
-                  onChange={() => { }}
-                  placeholder="Select Field"
-                  value={() => { }}
-                />
-              </InlineField>
-            </div>
-            <InlineField label="Operator" labelWidth={10}>
-              <Segment
-                className={"h"}
-                options={toOptions(["a", "b"])}
+        >
 
-                onChange={() => { }}
-                placeholder="Select Field"
-                value={() => { }}
-              />
-            </InlineField>
-            <InlineField label="Value" labelWidth={10}>
-              <Input
-                placeholder="Value"
-                onBlur={() => { }}
-                defaultValue={filter.label}
-              />
-            </InlineField>
-            <InlineField><Button /></InlineField>
-          </div>
-        ))}
+          <SegmentAsync
+            className={"h"}
+            loadOptions={getFields}
+            onChange={(e) => { dispatch(addFieldName(e.value)) }}
+            placeholder="Select Field Name"
+            value={value.filter?.field}
+          />
+          <Segment
+            className={"h"}
+            options={toOptions(["is", "is not", "exists", "does not exist"])}
+            onChange={(e) => { dispatch(addFilterOperator(e.label)) }}
+            placeholder="Operator"
+            value={value.filter?.operator}
+          />
+          <SegmentAsync
+            className={segmentStyles}
+            loadOptions={getFields}
+            onChange={e => dispatch(addFilterValue(e.label))}
+            placeholder="Field Value"
+            value={value.filter?.value}
+          />
+          <InlineField>
+            <IconButton
+              name="plus"
+              size="lg"
+              variant='secondary'
+              aria-label="Add"
+            /></InlineField>
+        </div>
+        ))
       </div>
     </>
   );

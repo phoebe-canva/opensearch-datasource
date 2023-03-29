@@ -1,4 +1,4 @@
-import { IconButton, InlineField, Input, QueryField } from '@grafana/ui';
+import { InlineField, Input, QueryField } from '@grafana/ui';
 import { css } from '@emotion/css';
 import React, { useEffect } from 'react';
 import { useDispatch, useStatelessReducer } from '../../../../../hooks/useStatelessReducer';
@@ -66,12 +66,8 @@ export const FiltersSettingsEditor = ({ value }: Props) => {
                 defaultValue={filter.label}
               />
             </InlineField>
-            <IconButton
-              name="trash-alt"
-              size="sm"
-              className=""
-              aria-label="remove metric"
-            />
+            
+
           </div>
         ))}
       </div>

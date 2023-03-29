@@ -8,6 +8,7 @@ import { createReducer as createBucketAggsReducer } from './BucketAggregationsEd
 import { queryTypeReducer } from './QueryTypeEditor/state';
 import { formatReducer } from './PPLFormatEditor/state';
 import { aliasPatternReducer, queryReducer, initQuery } from './state';
+import { LuceneFormatEditorReducer } from './LuceneFormatEditor/state';
 
 const DatasourceContext = createContext<OpenSearchDatasource | undefined>(undefined);
 const QueryContext = createContext<OpenSearchQuery | undefined>(undefined);
@@ -26,6 +27,7 @@ export const OpenSearchProvider = ({ children, onChange, query, datasource }: Pr
     metrics: metricsReducer,
     bucketAggs: createBucketAggsReducer(datasource.timeField),
     format: formatReducer,
+    filter: LuceneFormatEditorReducer
   });
 
   const dispatch = useStatelessReducer(
