@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { QueryEditorProps } from '@grafana/data';
 import { OpenSearchDatasource } from '../../datasource';
 import { OpenSearchOptions, OpenSearchQuery, QueryType } from '../../types';
 import { OpenSearchProvider } from './OpenSearchQueryContext';
-import { Button, InlineField, InlineFieldRow, Input, Popover, QueryField } from '@grafana/ui';
+import { InlineField, InlineFieldRow, Input, QueryField } from '@grafana/ui';
 import { changeAliasPattern, changeQuery } from './state';
 import { QueryTypeEditor } from './QueryTypeEditor';
 import { MetricAggregationsEditor } from './MetricAggregationsEditor';
@@ -12,6 +12,8 @@ import { useDispatch } from '../../hooks/useStatelessReducer';
 import { useNextId } from '../../hooks/useNextId';
 import { css } from '@emotion/css';
 import { PPLFormatEditor } from './PPLFormatEditor';
+import { FiltersLogsEditor } from './LuceneFormatEditor';
+import { SettingsEditorContainer } from './SettingsEditorContainer';
 
 export type OpenSearchQueryEditorProps = QueryEditorProps<OpenSearchDatasource, OpenSearchQuery, OpenSearchOptions>;
 
@@ -63,33 +65,19 @@ export const QueryEditorForm = ({ value }: Props) => {
         )}
       </InlineFieldRow>
 
-      <InlineFieldRow>
-        <InlineField label="Filter" labelWidth={17} id="popup-reference" grow>
-          {/* <ColorPickerPopover
-            color="#BC67E6"
-            onChange={() => {
-            }}
-          ></ColorPickerPopover> */}
-          {/* <div className={styles.queryWrapper}>
-            <Segment
-              className={segmentStyles}
-              options=["is, is not"]
-            onChange={e => dispatch(changeQueryType(e.value!))}
-            value={toOption(value)}
-    />
-          </div> */}
-          <div>hello</div>
-
+      {/* <InlineFieldRow>
+        <InlineField label="Add Filters" labelWidth={17} id="popup-reference" grow>
+          <QueryEditorRow
+            key={"hi"}
+            label={`Metric`}
+            onHideClick={() => { }}
+            onRemoveClick={() => { }}
+          ></QueryEditorRow>
         </InlineField>
 
-      </InlineFieldRow>
-      {/* <Modal title="text" isOpen={isModalOpen} >
-        Trying to see if this works
-      </Modal> */}
-      <Popover show={true} referenceElement={document.getElementById('popup-reference')} content={<div>POP UP?</div>}>
+      </InlineFieldRow> */}
+      <SettingsEditorContainer label={"Add Filters"}><FiltersLogsEditor /></SettingsEditorContainer>
 
-        <Button>Open Form</Button>
-      </Popover>
 
       {value.queryType === QueryType.PPL ? (
         <PPLFormatEditor />
