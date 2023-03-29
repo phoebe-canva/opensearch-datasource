@@ -1,12 +1,11 @@
-import { InlineField, Input, QueryField } from '@grafana/ui';
+import { IconButton, InlineField, Input, QueryField } from '@grafana/ui';
 import { css } from '@emotion/css';
 import React, { useEffect } from 'react';
-import { AddRemove } from '../../../../AddRemove';
 import { useDispatch, useStatelessReducer } from '../../../../../hooks/useStatelessReducer';
 import { Filters } from '../../aggregations';
 import { changeBucketAggregationSetting } from '../../state/actions';
 import { BucketAggregationAction } from '../../state/types';
-import { addFilter, changeFilter, removeFilter } from './state/actions';
+import { addFilter, changeFilter } from './state/actions';
 import { reducer as filtersReducer } from './state/reducer';
 
 interface Props {
@@ -54,7 +53,7 @@ export const FiltersSettingsEditor = ({ value }: Props) => {
                 <QueryField
                   placeholder="Lucene Query"
                   portalOrigin="opensearch"
-                  onBlur={() => {}}
+                  onBlur={() => { }}
                   onChange={query => dispatch(changeFilter(index, { ...filter, query }))}
                   query={filter.query}
                 />
@@ -67,11 +66,11 @@ export const FiltersSettingsEditor = ({ value }: Props) => {
                 defaultValue={filter.label}
               />
             </InlineField>
-            <AddRemove
-              index={index}
-              elements={value.settings?.filters || []}
-              onAdd={() => dispatch(addFilter())}
-              onRemove={() => dispatch(removeFilter(index))}
+            <IconButton
+              name="trash-alt"
+              size="sm"
+              className=""
+              aria-label="remove metric"
             />
           </div>
         ))}

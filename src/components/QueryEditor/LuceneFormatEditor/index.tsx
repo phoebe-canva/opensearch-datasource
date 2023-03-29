@@ -1,7 +1,6 @@
-import { InlineField, Input, Segment, SegmentAsync } from '@grafana/ui';
+import { Button, InlineField, Input, Segment, SegmentAsync } from '@grafana/ui';
 import { css } from '@emotion/css';
 import React from 'react';
-import { AddRemove } from 'components/AddRemove';
 import { useDatasource } from '../OpenSearchQueryContext';
 // import { AddRemove } from '../../../../AddRemove';
 // import { useDispatch, useStatelessReducer } from '../../../../../hooks/useStatelessReducer';
@@ -106,12 +105,7 @@ export const FiltersLogsEditor = ({ part }: any) => {
                 defaultValue={filter.label}
               />
             </InlineField>
-            <AddRemove
-              index={index}
-              elements={value.settings?.filters || []}
-              onAdd={() => { }}
-              onRemove={() => { }}
-            />
+            <InlineField><Button /></InlineField>
           </div>
         ))}
       </div>
