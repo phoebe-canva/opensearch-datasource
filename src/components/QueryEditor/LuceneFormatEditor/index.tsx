@@ -3,9 +3,10 @@ import { css } from '@emotion/css';
 import React from 'react';
 import { useDatasource } from '../OpenSearchQueryContext';
 import { useDispatch } from 'hooks/useStatelessReducer';
-import { addFieldName, addFilterOperator, addFilterValue } from './state';
+import { addFieldName, addFilterLucene, addFilterOperator, addFilterValue } from './state';
 import { OpenSearchQuery } from 'types';
 import { segmentStyles } from '../styles';
+import { getFilterLucene } from './LuceneEditor';
 interface Props {
   value: OpenSearchQuery;
 }
@@ -119,9 +120,9 @@ export const FiltersLogsEditor = ({ value }: Props) => {
               size="lg"
               variant='secondary'
               aria-label="Add"
+              onClick={() => dispatch(addFilterLucene(getFilterLucene(value.filter?.field, value.filter?.operator, value.filter?.value, value.query)))}
             /></InlineField>
         </div>
-        ))
       </div>
     </>
   );
