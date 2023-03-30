@@ -23,7 +23,7 @@
     "@grafana/data": "9.0.2",
     "@grafana/e2e-selectors": "9.0.2",
     "@grafana/runtime": "9.0.2",
-    "@grafana/ui": "^9.4.7",
+    "@grafana/ui": "9.0.2",
     "lodash": "4.17.21",
     "react": "17.0.2",
     "react-dom": "17.0.2",

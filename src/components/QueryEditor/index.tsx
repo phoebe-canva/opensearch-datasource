@@ -4,7 +4,8 @@ import { OpenSearchDatasource } from '../../datasource';
 import { OpenSearchOptions, OpenSearchQuery, QueryType } from '../../types';
 import { OpenSearchProvider } from './OpenSearchQueryContext';
 import { InlineField, InlineFieldRow, Input, QueryField } from '@grafana/ui';
-import { changeAliasPattern, changeQuery } from './state';
+// import { changeAliasPattern, changeQuery } from './state';
+import { changeAliasPattern } from './state';
 import { QueryTypeEditor } from './QueryTypeEditor';
 import { MetricAggregationsEditor } from './MetricAggregationsEditor';
 import { BucketAggregationsEditor } from './BucketAggregationsEditor';
@@ -34,7 +35,6 @@ interface Props {
 export const QueryEditorForm = ({ value }: Props) => {
   const dispatch = useDispatch();
   const nextId = useNextId();
-  // const [isModalOpen] = useState(true);
 
   return (
     <>
@@ -43,16 +43,19 @@ export const QueryEditorForm = ({ value }: Props) => {
           <div className={styles.queryWrapper}>
             <QueryTypeEditor value={value.queryType} />
             <QueryField
-              query={value.query}
+              // query={value.query}
               // By default QueryField calls onChange if onBlur is not defined, this will trigger a rerender
               // And slate will claim the focus, making it impossible to leave the field.
-              // onBlur={() => { }}
-              onChange={query => dispatch(changeQuery(query))}
+              onBlur={() => { console.log("on Blur") }}
+              onChange={(value: string) => { console.log("on Change") }}
               placeholder={value.queryType === QueryType.PPL ? 'PPL Query' : 'Lucene Query'}
               portalOrigin="opensearch"
             />
+
           </div>
+
         </InlineField>
+
         {value.queryType !== QueryType.PPL && (
           <InlineField label="Alias" labelWidth={15}>
             <Input
@@ -64,6 +67,7 @@ export const QueryEditorForm = ({ value }: Props) => {
         )}
       </InlineFieldRow>
 
+      {/* <InlineField><><QueryField portalOrigin='somethin' onBlur={() => { console.log("on Blur") }} /></></InlineField> */}
       <InlineFieldRow>
         <InlineField label="Filters" labelWidth={17} id="popup-reference" grow>
           <FiltersLogsEditor value={value} />
