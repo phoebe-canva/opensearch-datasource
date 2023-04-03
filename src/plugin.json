@@ -1,14 +1,13 @@
 {
   "type": "datasource",
   "name": "OpenSearch",
-  "id": "grafana-opensearch-datasource",
+  "id": "canva-opensearch-datasource",
   "category": "logging",
   "alerting": true,
   "annotations": true,
   "metrics": true,
   "logs": true,
   "backend": true,
-
   "executable": "gpx_opensearch-datasource",
   "info": {
     "description": "",
@@ -16,7 +15,10 @@
       "name": "Grafana Labs",
       "url": "https://grafana.com"
     },
-    "keywords": ["elasticsearch", "opensearch"],
+    "keywords": [
+      "elasticsearch",
+      "opensearch"
+    ],
     "logos": {
       "small": "img/logo.svg",
       "large": "img/logo.svg"

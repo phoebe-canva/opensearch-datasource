@@ -1,11 +1,12 @@
 import { OpenSearchQuery } from 'types';
 import { Action } from '../../hooks/useStatelessReducer';
+import { AddFilterLucene, ADD_FILTER_LUCENE } from './LuceneFormatEditor/state';
 
 export const INIT = 'init';
 const CHANGE_QUERY = 'change_query';
 const CHANGE_ALIAS_PATTERN = 'change_alias_pattern';
 
-export interface InitAction extends Action<typeof INIT> {}
+export interface InitAction extends Action<typeof INIT> { }
 
 interface ChangeQueryAction extends Action<typeof CHANGE_QUERY> {
   payload: {
@@ -39,9 +40,14 @@ export const changeAliasPattern = (aliasPattern: string): ChangeAliasPatternActi
   },
 });
 
-export const queryReducer = (prevQuery: OpenSearchQuery['query'], action: ChangeQueryAction | InitAction) => {
+export const queryReducer = (prevQuery: OpenSearchQuery['query'], action: ChangeQueryAction | InitAction | AddFilterLucene) => {
   switch (action.type) {
+
+    case ADD_FILTER_LUCENE:
+      return action.payload.query
+
     case CHANGE_QUERY:
+
       return action.payload.query;
 
     case INIT:

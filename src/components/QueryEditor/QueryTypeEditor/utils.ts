@@ -1,4 +1,5 @@
 import { SelectableValue } from '@grafana/data';
+
 import { QueryType, QueryTypeConfiguration } from '../../../types';
 
 export const queryTypeConfig: QueryTypeConfiguration = {
@@ -14,3 +15,13 @@ export const getQueryTypeOptions = (supportedTypes: QueryType[]): Array<Selectab
       value: key as QueryType,
     }));
 };
+
+// export const weird = () => {
+//   return renderComponentWithTheme(ColorPickerPopover, {
+//     color: '#BC67E6',
+//     onChange: (color: string) => {
+//       console.log(color);
+//     },
+//   });
+// }
+

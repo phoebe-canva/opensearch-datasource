@@ -745,6 +745,56 @@ export class OpenSearchDatasource extends DataSourceApi<OpenSearchQuery, OpenSea
     });
   }
 
+  getFieldsSuggestor(query: { field: string, queryString: string }, range = getDefaultTimeRange()) {
+    let esQuery = this.getSuggestorBody(query.field, query.queryString)
+    const indexPattern = this.indexPattern.getIndexList(range.from, range.to)
+    const url = `${indexPattern}/_search?request_cache=false`
+    return this.post(url, esQuery).then((res: any) => {
+      const buckets = res.aggregations.suggestions.buckets
+      console.log(buckets)
+      return _.map(buckets, bucket => {
+        return {
+          text: bucket.key_as_string || bucket.key,
+          value: bucket.key,
+        };
+      });
+    })
+  }
+
+  getSuggestorBody(field, query) {
+    // Helps ensure that the regex is not evaluated eagerly against the terms dictionary
+    const executionHint = 'map';
+
+    // Helps keep the number of buckets that need to be tracked at the shard level contained in case
+    // this is a high cardinality field
+    const terminateAfter = 100;
+
+    // We don't care about the accuracy of the counts, just the content of the terms, so this reduces
+    // the amount of information that needs to be transmitted to the coordinating node
+    const shardSize = 10;
+
+    return {
+      size: 0,
+      timeout: '1s',
+      terminate_after: terminateAfter,
+      aggs: {
+        suggestions: {
+          terms: {
+            field,
+            include: `${this.getEscapedQuery(query)}.*`,
+            execution_hint: executionHint,
+            shard_size: shardSize
+          }
+        }
+      }
+    };
+  }
+
+  getEscapedQuery(query = '') {
+    // https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-regexp-query.html#_standard_operators
+    return query.replace(/[.?+*|{}[\]()"\\#@&<>~]/g, (match) => `\\${match}`);
+  }
+
   getMultiSearchUrl() {
     if (
       this.maxConcurrentShardRequests &&
